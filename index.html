@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Joke Page</title>
+    <style>
+        body {
+            width: 100vw;
+            height: 100hv;
+            background-color: #F12D03;
+            color: #ffffff;
+            font-size: 4rem;
+        }
+
+        #main {
+            height: 100vh;
+            padding: 10rem;
+        }
+
+        #inner {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        h3,
+        h4 {
+            text-align: center;
+        }
+
+        #delivery {
+            color: #ffff00;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            font-size: 3rem;
+            background-color: #eeeeee;
+            color: #000000;
+            border: 0px;
+            border-radius: 10%;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <div id="inner">
+            <h3 id="joke"></h3>
+            <h3 id="setup"></h3>
+            <h4 id="delivery"></h4>
+            <button id="new-joke-btn">New Joke</button>
+        </div>
+    </div>
+</body>
+
+<script>
+    // daqui
+    var url = "https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist,sexist,explicit"
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            if (data.type == "single") {
+                document.getElementById("joke").innerHTML = data.joke
+            } else {
+                document.getElementById("setup").innerHTML = data.setup
+                document.getElementById("delivery").innerHTML = data.delivery
+            }
+        })
+
+    var myButton = document.getElementById("new-joke-btn") // capturei o meu botão no html
+    myButton.addEventListener("click", function () { // adicionei um evento de click ao meu botão
+        // aqui só executa quando o botão é clicado
+        var url = "https://v2.jokeapi.dev/joke/Any?blacklistFlags=racist,sexist,explicit"
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.type == "single") {
+                    document.getElementById("joke").setAttribute("class", "show")
+                    document.getElementById("joke").innerHTML = data.joke
+                    document.getElementById("setup").setAttribute("class", "hide")
+                    document.getElementById("delivery").setAttribute("class", "hide")
+                } else {
+                    document.getElementById("setup").setAttribute("class", "show")
+                    document.getElementById("delivery").setAttribute("class", "show")
+                    document.getElementById("joke").setAttribute("class", "hide")
+                    document.getElementById("setup").innerHTML = data.setup
+                    document.getElementById("delivery").innerHTML = data.delivery
+                }
+            })
+        // até aqui botão clicado
+    })
+    // até aqui
+</script>
+
+</html>
